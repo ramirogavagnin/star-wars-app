@@ -55,7 +55,7 @@ export default function StickyHeadTable() {
                             <TableCell
                                 style={{
                                     minWidth: 170,
-                                    backgroundColor: 'red',
+                                    backgroundColor: '#2D2D2D',
                                     zIndex: 0,
                                 }}
                             >
