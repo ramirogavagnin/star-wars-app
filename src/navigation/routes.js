@@ -1,5 +1,5 @@
 export default {
-    home: 'home',
-    characters: 'characters',
-    films: 'films',
+    home: '/home',
+    characters: '/characters',
+    films: '/films',
 }

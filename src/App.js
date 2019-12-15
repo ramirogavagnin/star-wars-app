@@ -4,10 +4,14 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getCharacters } from './redux/actions'
 
+import routes from './navigation/routes'
+
 import Layout from './components/Layout'
 
 import Home from './containers/Home'
 import Characters from './containers/Characters'
+
+const { home } = routes
 
 const App = ({ getCharacters }) => {
     useEffect(() => {

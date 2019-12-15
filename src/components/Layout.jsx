@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import clsx from 'clsx'
 
 import routes from '../navigation/routes'
@@ -26,6 +26,8 @@ import HomeIcon from '@material-ui/icons/Home'
 import PeopleIcon from '@material-ui/icons/People'
 import MovieIcon from '@material-ui/icons/Movie'
 import Grid from '@material-ui/core/Grid'
+import Backdrop from '@material-ui/core/Backdrop'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import '../App.css'
 
@@ -102,6 +104,10 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
     },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    },
 }))
 
 const { home, characters, films } = routes
@@ -112,15 +118,8 @@ const menuLinks = [
     { key: films, label: 'Películas', icon: <MovieIcon /> },
 ]
 const Layout = props => {
-    const {
-        children,
-        handleNavigation,
-        activePage,
-        characters,
-        history,
-    } = props
+    const { children, handleNavigation, isLoading, characters, history } = props
 
-    console.log('characters ', characters)
     const classes = useStyles()
     const theme = useTheme()
     const [open, setOpen] = useState(false)
@@ -135,24 +134,20 @@ const Layout = props => {
 
     const { transparent, backgroundActiveItem } = classes
 
+    const { pathname } = history.location
+
     return (
         <div className="App">
-            {/*   <div
-                style={{
-                    height: '109vh',
-                    width: '100vw',
-                    position: 'absolute',
-                    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                    zIndex: 9999,
-                }}
-            /> */}
+            <Backdrop className={classes.backdrop} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <div className={classes.root}>
                 <CssBaseline />
                 <AppBar
                     position="fixed"
                     className={clsx(
                         classes.appBar,
-                        activePage === routes.home && transparent,
+                        pathname === home && transparent,
                         classes.red,
                         {
                             [classes.appBarShift]: open,
@@ -201,12 +196,11 @@ const Layout = props => {
                         {menuLinks.map((item, index) => {
                             const { key, label, icon } = item
                             return (
-                                <>
+                                <Fragment key={key}>
                                     <ListItem
                                         button
-                                        key={key}
                                         className={clsx(
-                                            activePage === key &&
+                                            pathname === key &&
                                                 backgroundActiveItem
                                         )}
                                         onClick={() => {
@@ -218,7 +212,7 @@ const Layout = props => {
                                         <ListItemText primary={label} />
                                     </ListItem>
                                     <Divider />
-                                </>
+                                </Fragment>
                             )
                         })}
                     </List>
@@ -232,10 +226,10 @@ const Layout = props => {
 }
 
 const mapStateToProps = state => {
-    const { activePage, characters } = state
+    const { characters, isLoading } = state
     return {
-        activePage,
         characters,
+        isLoading,
     }
 }
 
