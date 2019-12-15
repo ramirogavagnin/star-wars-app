@@ -1,17 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+
+import { connect } from 'react-redux'
+import { getCharacters } from './redux/actions'
 
 import Layout from './components/Layout'
 
 import Home from './containers/Home'
 import Characters from './containers/Characters'
 
-function App() {
+const App = ({ getCharacters }) => {
+    useEffect(() => {
+        getCharacters()
+    }, [])
     return (
         <BrowserRouter>
             <Layout>
                 <Switch>
-                    <Route exact path="/" component={Home} />
+                    <Route exact path="/home" component={Home} />
                     <Route exact path="/characters" component={Characters} />
                 </Switch>
             </Layout>
@@ -19,4 +25,8 @@ function App() {
     )
 }
 
-export default App
+const mapDispatchToProps = {
+    getCharacters,
+}
+
+export default connect(null, mapDispatchToProps)(App)

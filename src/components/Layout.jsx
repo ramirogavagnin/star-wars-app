@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
 import clsx from 'clsx'
+
+import routes from '../navigation/routes'
+
+import { connect } from 'react-redux'
+import { handleNavigation } from '../redux/actions'
+
+import { withRouter } from 'react-router-dom'
+
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -11,10 +19,10 @@ import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import HomeIcon from '@material-ui/icons/Home'
 import PeopleIcon from '@material-ui/icons/People'
 import MovieIcon from '@material-ui/icons/Movie'
 import Grid from '@material-ui/core/Grid'
@@ -34,7 +42,7 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: '#000000',
     },
 
     appBarShift: {
@@ -44,6 +52,13 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
+    },
+
+    transparent: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    },
+    backgroundActiveItem: {
+        backgroundColor: '#C6C6C6',
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -87,16 +102,25 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
     },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-    },
 }))
 
-const Layout = ({ children }) => {
+const { home, characters, films } = routes
+
+const menuLinks = [
+    { key: home, label: 'Home', icon: <HomeIcon /> },
+    { key: characters, label: 'Personajes', icon: <PeopleIcon /> },
+    { key: films, label: 'Películas', icon: <MovieIcon /> },
+]
+const Layout = props => {
+    const {
+        children,
+        handleNavigation,
+        activePage,
+        characters,
+        history,
+    } = props
+
+    console.log('characters ', characters)
     const classes = useStyles()
     const theme = useTheme()
     const [open, setOpen] = useState(false)
@@ -108,6 +132,8 @@ const Layout = ({ children }) => {
     const handleDrawerClose = () => {
         setOpen(false)
     }
+
+    const { transparent, backgroundActiveItem } = classes
 
     return (
         <div className="App">
@@ -124,9 +150,14 @@ const Layout = ({ children }) => {
                 <CssBaseline />
                 <AppBar
                     position="fixed"
-                    className={clsx(classes.appBar, {
-                        [classes.appBarShift]: open,
-                    })}
+                    className={clsx(
+                        classes.appBar,
+                        activePage === routes.home && transparent,
+                        classes.red,
+                        {
+                            [classes.appBarShift]: open,
+                        }
+                    )}
                 >
                     <Toolbar>
                         <IconButton
@@ -162,37 +193,37 @@ const Layout = ({ children }) => {
                     <div className={classes.drawerHeader}>
                         <h1 className={classes.drawerTitle}>STAR WARS</h1>
                         <IconButton onClick={handleDrawerClose}>
-                            {theme.direction === 'ltr' ? (
-                                <ChevronLeftIcon />
-                            ) : (
-                                <ChevronRightIcon />
-                            )}
+                            <ChevronLeftIcon />
                         </IconButton>
                     </div>
                     <Divider />
                     <List>
-                        {['Personajes', 'Peliculas'].map((text, index) => (
-                            <>
-                                <ListItem button key={text}>
-                                    <ListItemIcon>
-                                        {index % 2 === 0 ? (
-                                            <PeopleIcon />
-                                        ) : (
-                                            <MovieIcon />
+                        {menuLinks.map((item, index) => {
+                            const { key, label, icon } = item
+                            return (
+                                <>
+                                    <ListItem
+                                        button
+                                        key={key}
+                                        className={clsx(
+                                            activePage === key &&
+                                                backgroundActiveItem
                                         )}
-                                    </ListItemIcon>
-                                    <ListItemText primary={text} />
-                                </ListItem>
-                                <Divider />
-                            </>
-                        ))}
+                                        onClick={() => {
+                                            handleNavigation({ key, history })
+                                            handleDrawerClose()
+                                        }}
+                                    >
+                                        <ListItemIcon>{icon}</ListItemIcon>
+                                        <ListItemText primary={label} />
+                                    </ListItem>
+                                    <Divider />
+                                </>
+                            )
+                        })}
                     </List>
                 </Drawer>
-                <main
-                    className={clsx(classes.content, {
-                        [classes.contentShift]: open,
-                    })}
-                >
+                <main className={classes.content}>
                     <Grid container>{children}</Grid>
                 </main>
             </div>
@@ -200,4 +231,16 @@ const Layout = ({ children }) => {
     )
 }
 
-export default Layout
+const mapStateToProps = state => {
+    const { activePage, characters } = state
+    return {
+        activePage,
+        characters,
+    }
+}
+
+const mapDispatchToProps = {
+    handleNavigation,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Layout))
