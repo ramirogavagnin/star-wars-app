@@ -1,16 +1,21 @@
 import React from 'react'
-import logo from './logo.svg'
-import './App.css'
-import DrawerMenu from './components/DrawerMenu'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+
+import Layout from './components/Layout'
+
+import Home from './containers/Home'
 import Characters from './containers/Characters'
 
 function App() {
     return (
-        <div className="App">
-            <DrawerMenu>
-                <Characters />
-            </DrawerMenu>
-        </div>
+        <BrowserRouter>
+            <Layout>
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/characters" component={Characters} />
+                </Switch>
+            </Layout>
+        </BrowserRouter>
     )
 }
 

@@ -1,17 +1,25 @@
 import React from 'react'
-import ListWrapper from '../components/ListWrapper'
+import TableWrapper from '../components/TableWrapper'
 import DetailWrapper from '../components/DetailWrapper'
 import CustomTable from '../components/CustomTable'
+import Grid from '@material-ui/core/Grid'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 const Characters = props => {
+    const matches = useMediaQuery('(min-width:600px)')
+
     return (
         <>
-            <ListWrapper>
-                <CustomTable />
-            </ListWrapper>
-            <DetailWrapper>
-                <p>pepe</p>
-            </DetailWrapper>
+            <Grid item xs={12}>
+                <TableWrapper matches={matches}>
+                    <CustomTable matches={matches} />
+                </TableWrapper>
+            </Grid>
+            <Grid item xs={12}>
+                <DetailWrapper matches={matches}>
+                    <p style={{ color: 'white' }}>pepe</p>
+                </DetailWrapper>
+            </Grid>
         </>
     )
 }

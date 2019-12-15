@@ -5,6 +5,7 @@ import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
+import Fab from '@material-ui/core/Fab'
 
 import TableRow from '@material-ui/core/TableRow'
 
@@ -33,33 +34,35 @@ const rows = [
     createData('Brazil', 'BR', 210147125, 8515767),
 ]
 
-const useStyles = makeStyles({
-    root: {
-        width: '100%',
-    },
-    tableWrapper: {
-        maxHeight: '100vh',
-        overflow: 'auto',
-    },
-})
-
-export default function StickyHeadTable() {
+const CustomTable = ({ matches }) => {
+    const useStyles = makeStyles({
+        root: {
+            width: '100%',
+            borderRadius: 0,
+        },
+        tableWrapper: {
+            height: matches ? '100vh' : '71vh',
+            overflow: 'auto',
+        },
+        tableHead: {
+            minWidth: 170,
+            backgroundColor: '#2D2D2D',
+            zIndex: 0,
+            paddingTop: matches ? 25 : 20,
+        },
+    })
     const classes = useStyles()
 
     return (
         <Paper className={classes.root}>
             <div className={classes.tableWrapper}>
-                <Table stickyHeader aria-label="sticky table">
+                <Table aria-label="table">
                     <TableHead>
                         <TableRow>
-                            <TableCell
-                                style={{
-                                    minWidth: 170,
-                                    backgroundColor: '#2D2D2D',
-                                    zIndex: 0,
-                                }}
-                            >
-                                Nombre
+                            <TableCell className={classes.tableHead}>
+                                <h3 style={{ color: 'white', margin: 0 }}>
+                                    Nombre
+                                </h3>
                             </TableCell>
                         </TableRow>
                     </TableHead>
@@ -73,34 +76,33 @@ export default function StickyHeadTable() {
                                     key={row.code}
                                     onClick={() => console.log(row.name)}
                                 >
-                                    {columns.map(column => {
-                                        const value = row[column.id]
-                                        return (
-                                            <TableCell
-                                                key={column.id}
-                                                align={column.align}
-                                            >
-                                                {column.format &&
-                                                typeof value === 'number'
-                                                    ? column.format(value)
-                                                    : value}
-                                            </TableCell>
-                                        )
-                                    })}
+                                    <TableCell>{row.name}</TableCell>
                                 </TableRow>
                             )
                         })}
                     </TableBody>
                 </Table>
-                <button
+                <div
                     style={{
-                        margin: '5vmin 2vmin 5vmin 2vmin',
-                        alignSelf: 'center',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        display: 'flex',
                     }}
                 >
-                    Pepe
-                </button>
+                    <Fab
+                        variant="extended"
+                        style={{
+                            width: '60%',
+                            margin: '5vmin 2vmin 5vmin 2vmin',
+                        }}
+                    >
+                        Ver más
+                    </Fab>
+                </div>
             </div>
         </Paper>
     )
 }
+
+export default CustomTable
