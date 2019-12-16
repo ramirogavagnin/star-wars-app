@@ -110,15 +110,24 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const { home, characters, films } = routes
+const { home, characters, movies } = routes
 
 const menuLinks = [
     { key: home, label: 'Home', icon: <HomeIcon /> },
     { key: characters, label: 'Personajes', icon: <PeopleIcon /> },
-    { key: films, label: 'Películas', icon: <MovieIcon /> },
+    { key: movies, label: 'Películas', icon: <MovieIcon /> },
 ]
 const Layout = props => {
-    const { children, handleNavigation, isLoading, characters, history } = props
+    const {
+        children,
+        handleNavigation,
+        isLoading,
+        characters,
+        movies,
+        history,
+    } = props
+
+    console.log(movies)
 
     const classes = useStyles()
     const theme = useTheme()
@@ -226,9 +235,10 @@ const Layout = props => {
 }
 
 const mapStateToProps = state => {
-    const { characters, isLoading } = state
+    const { characters, movies, isLoading } = state
     return {
         characters,
+        movies,
         isLoading,
     }
 }

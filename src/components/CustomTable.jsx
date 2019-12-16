@@ -7,8 +7,9 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import Fab from '@material-ui/core/Fab'
-
 import TableRow from '@material-ui/core/TableRow'
+
+import Title from './Title'
 
 const CustomTable = ({
     matches,
@@ -73,7 +74,7 @@ const CustomTable = ({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.results &&
+                        {data.results ? (
                             data.results.map(item => {
                                 const { name, title, url } = item
                                 return (
@@ -100,10 +101,33 @@ const CustomTable = ({
                                         </TableCell>
                                     </TableRow>
                                 )
-                            })}
+                            })
+                        ) : (
+                            <TableRow>
+                                <TableCell
+                                    style={{ borderBottomColor: 'transparent' }}
+                                >
+                                    <Title
+                                        matches={matches}
+                                        style={{
+                                            fontSize: '4vmin',
+                                            textAlign: 'center',
+                                            color: '#000000',
+                                            padding: '2vmin',
+                                        }}
+                                    >
+                                        No hay{' '}
+                                        {characters
+                                            ? 'Personajes'
+                                            : 'Películas'}{' '}
+                                        disponibles
+                                    </Title>
+                                </TableCell>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
-                {data.results && (
+                {characters && data.results && (
                     <div className={classes.buttonContainer}>
                         <Fab
                             variant="extended"

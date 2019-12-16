@@ -5,21 +5,35 @@ const reducers = (state, action) => {
     switch (action.type) {
         case types.SET_CHARACTERS:
             if (Object.keys(state.characters).length > 0) {
-                const results = _.concat(
-                    state.characters.results,
-                    action.payload.results
-                )
+                let result = []
+
+                _.forEach(action.payload.results, item => {
+                    const index = _.findIndex(
+                        state.characters.results,
+                        characterItem => characterItem.url === item.url
+                    )
+                    if (index === -1) {
+                        result.push(item)
+                    }
+                })
+
+                const results = _.concat(state.characters.results, result)
+
                 return {
                     ...state,
                     characters: { ...action.payload, results },
-                    isLoading: false,
                 }
             } else {
                 return {
                     ...state,
                     characters: action.payload,
-                    isLoading: false,
                 }
+            }
+
+        case types.SET_MOVIES:
+            return {
+                ...state,
+                movies: action.payload,
             }
 
         case types.SET_ACTIVE_CHARACTER:
@@ -28,10 +42,10 @@ const reducers = (state, action) => {
                 activeCharacter: action.payload,
             }
 
-        case types.SET_ACTIVE_FILM:
+        case types.SET_ACTIVE_MOVIE:
             return {
                 ...state,
-                activeFilm: action.payload,
+                activeMovie: action.payload,
             }
 
         // States

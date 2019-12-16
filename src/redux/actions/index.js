@@ -12,13 +12,18 @@ export const setCharacters = payload => ({
     payload: payload,
 })
 
+export const setMovies = payload => ({
+    type: types.SET_MOVIES,
+    payload: payload,
+})
+
 export const setActiveCharacter = payload => ({
     type: types.SET_ACTIVE_CHARACTER,
     payload: payload,
 })
 
-export const setActiveFilm = payload => ({
-    type: types.SET_ACTIVE_FILM,
+export const setActiveMovie = payload => ({
+    type: types.SET_ACTIVE_MOVIE,
     payload: payload,
 })
 
@@ -62,8 +67,24 @@ export const getCharacters = payload => {
                         }
                     }
                 })
+
                 data.results = results
-                dispatch(setCharacters(data))
+
+                if (payload) {
+                    dispatch(setCharacters(data))
+                    dispatch(setIsLoading(false))
+                } else {
+                    // Si no hay payload es mi petición inicial, entonces => movies
+                    const getMovies = await get(films)
+                    if (!getMovies.error) {
+                        dispatch(setMovies(getMovies.data))
+                        dispatch(setCharacters(data))
+                        dispatch(setIsLoading(false))
+                    } else {
+                        dispatch(setCharacters(data))
+                        dispatch(setIsLoading(false))
+                    }
+                }
             } else {
                 dispatch(setIsLoading(false))
             }

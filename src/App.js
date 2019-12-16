@@ -10,8 +10,9 @@ import Layout from './components/Layout'
 
 import Home from './containers/Home'
 import Characters from './containers/Characters'
+import Movies from './containers/Movies'
 
-const { home } = routes
+const { home, characters, movies } = routes
 
 const App = ({ getCharacters }) => {
     useEffect(() => {
@@ -21,8 +22,9 @@ const App = ({ getCharacters }) => {
         <BrowserRouter>
             <Layout>
                 <Switch>
-                    <Route exact path="/home" component={Home} />
-                    <Route exact path="/characters" component={Characters} />
+                    <Route exact path={home} component={Home} />
+                    <Route exact path={characters} component={Characters} />
+                    <Route exact path={movies} component={Movies} />
                 </Switch>
             </Layout>
         </BrowserRouter>

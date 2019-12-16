@@ -1,5 +1,3 @@
-import { API_URL } from './api'
-
 export const get = async (endpoint, payload) => {
     try {
         let url = endpoint
