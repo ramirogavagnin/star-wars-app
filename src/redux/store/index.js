@@ -6,7 +6,7 @@ import reducers from '../reducers'
 
 const { home } = routes
 
-const INITIAL_STATE = { characters: {} }
+const INITIAL_STATE = { characters: {}, activeCharacter: {}, isLoading: false }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 

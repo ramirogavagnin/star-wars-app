@@ -12,6 +12,16 @@ export const setCharacters = payload => ({
     payload: payload,
 })
 
+export const setActiveCharacter = payload => ({
+    type: types.SET_ACTIVE_CHARACTER,
+    payload: payload,
+})
+
+export const setActiveFilm = payload => ({
+    type: types.SET_ACTIVE_FILM,
+    payload: payload,
+})
+
 export const handleNavigation = payload => {
     return dispatch => {
         const { key, history } = payload

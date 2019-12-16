@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
@@ -9,7 +10,14 @@ import Fab from '@material-ui/core/Fab'
 
 import TableRow from '@material-ui/core/TableRow'
 
-const CustomTable = ({ matches, data, seeMore }) => {
+const CustomTable = ({
+    matches,
+    data,
+    seeMore,
+    characters,
+    active,
+    setActiveItem,
+}) => {
     const useStyles = makeStyles({
         root: {
             width: '100%',
@@ -35,8 +43,21 @@ const CustomTable = ({ matches, data, seeMore }) => {
             width: '60%',
             margin: '5vmin 2vmin 5vmin 2vmin',
         },
+        backgroundActiveItem: {
+            backgroundColor: '#C6C6C6',
+        },
+        textActiveItem: {
+            fontWeight: 'bold',
+            fontSize: matches ? '3.5vmin' : '5.5vmin',
+        },
+        textItem: {
+            fontWeight: 'normal',
+            fontSize: matches ? '2.5vmin' : '4.5vmin',
+        },
     })
     const classes = useStyles()
+
+    const { backgroundActiveItem, textActiveItem, textItem } = classes
 
     return (
         <Paper className={classes.root}>
@@ -54,16 +75,29 @@ const CustomTable = ({ matches, data, seeMore }) => {
                     <TableBody>
                         {data.results &&
                             data.results.map(item => {
-                                const { name } = item
+                                const { name, title, url } = item
                                 return (
                                     <TableRow
                                         hover
+                                        className={clsx(
+                                            active &&
+                                                active.url === url &&
+                                                backgroundActiveItem
+                                        )}
                                         role="checkbox"
                                         tabIndex={-1}
-                                        key={name}
-                                        onClick={() => console.log(name)}
+                                        key={url}
+                                        onClick={() => setActiveItem(item)}
                                     >
-                                        <TableCell>{name}</TableCell>
+                                        <TableCell
+                                            className={clsx(
+                                                active && active.url === url
+                                                    ? textActiveItem
+                                                    : textItem
+                                            )}
+                                        >
+                                            {characters ? name : title}
+                                        </TableCell>
                                     </TableRow>
                                 )
                             })}

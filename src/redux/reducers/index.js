@@ -22,6 +22,18 @@ const reducers = (state, action) => {
                 }
             }
 
+        case types.SET_ACTIVE_CHARACTER:
+            return {
+                ...state,
+                activeCharacter: action.payload,
+            }
+
+        case types.SET_ACTIVE_FILM:
+            return {
+                ...state,
+                activeFilm: action.payload,
+            }
+
         // States
         case types.IS_LOADING:
             return {
