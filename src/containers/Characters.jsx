@@ -9,6 +9,13 @@ import {
     handleNavigation,
 } from '../redux/actions'
 
+import {
+    genderTranslate,
+    eyeColorTranslate,
+    massTranslate,
+    heightTranslate,
+} from '../utils/translate'
+
 import routes from '../navigation/routes'
 
 import TableWrapper from '../components/TableWrapper'
@@ -71,10 +78,14 @@ const Characters = ({
                         <>
                             <Title matches={matches}>Nombre: {name}</Title>
                             <Text matches={matches}>
-                                - Color de ojos: {eye_color}
+                                - Color de ojos: {eyeColorTranslate(eye_color)}
                             </Text>
-                            <Text matches={matches}>- Altura: {height} cm</Text>
-                            <Text matches={matches}>- Peso: {mass} kg</Text>
+                            <Text matches={matches}>
+                                - Altura: {heightTranslate(height)}
+                            </Text>
+                            <Text matches={matches}>
+                                - Peso: {massTranslate(mass)}
+                            </Text>
                             {filmsList.length > 0 && (
                                 <>
                                     <Text matches={matches}>

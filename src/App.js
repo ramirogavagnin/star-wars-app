@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import { getCharacters } from './redux/actions'
+import { getCharacters, clearLoadingPage } from './redux/actions'
 
 import routes from './navigation/routes'
 
@@ -18,13 +18,11 @@ import NotFound from './containers/NotFound'
 const { home, characters, movies } = routes
 
 const App = ({ getCharacters, loadingPage }) => {
-    const [onFinishLoading, setFinishLoading] = useState(false)
     useEffect(() => {
-        setFinishLoading(true)
         getCharacters()
     }, [])
 
-    if (!onFinishLoading) {
+    if (loadingPage) {
         return <Loading />
     }
 
