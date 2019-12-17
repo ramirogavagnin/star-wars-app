@@ -92,12 +92,6 @@ const reducers = (state, action) => {
                 isLoading: action.payload,
             }
 
-        case types.CLEAR_LOADING_PAGE:
-            return {
-                ...state,
-                loadingPage: action.payload,
-            }
-
         default:
             return { ...state }
     }

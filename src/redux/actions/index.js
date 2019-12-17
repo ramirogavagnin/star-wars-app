@@ -51,11 +51,6 @@ export const clearActiveCharacter = payload => ({
     payload: payload,
 })
 
-export const clearLoadingPage = payload => ({
-    type: types.CLEAR_LOADING_PAGE,
-    payload: payload,
-})
-
 export const handleNavigation = payload => {
     return dispatch => {
         const { key, history, item } = payload

@@ -17,7 +17,7 @@ import NotFound from './containers/NotFound'
 
 const { home, characters, movies } = routes
 
-const App = ({ getCharacters, loadingPage }) => {
+const App = ({ getCharacters }) => {
     const [onFinishLoading, setFinishLoading] = useState(false)
     useEffect(() => {
         setFinishLoading(true)
