@@ -19,7 +19,7 @@ const { home, characters, movies } = routes
 
 const App = ({ getCharacters, loadingPage, clearLoadingPage }) => {
     useEffect(() => {
-        window.addEventListener('load', () => clearLoadingPage(false))
+        window.addEventListener('load', clearLoadingPage)
         getCharacters()
 
         return () => {
