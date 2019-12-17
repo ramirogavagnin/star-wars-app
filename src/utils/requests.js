@@ -3,7 +3,7 @@ export const get = async (endpoint, payload) => {
         let url = endpoint
 
         if (payload) {
-            url = `${url}${payload}/`
+            url = `${url}${payload}`
         }
 
         const response = await fetch(url)

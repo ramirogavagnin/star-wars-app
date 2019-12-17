@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import {
     getCharacters,
     setActiveCharacter,
+    searchCharacter,
+    setSearchCharacterActive,
     handleNavigation,
 } from '../redux/actions'
 
@@ -25,6 +27,10 @@ const Characters = ({
     getCharacters,
     activeCharacter,
     setActiveCharacter,
+    searchCharacter,
+    searchCharacterActive,
+    searchedCharacter,
+    setSearchCharacterActive,
     handleNavigation,
     history,
 }) => {
@@ -44,10 +50,17 @@ const Characters = ({
                 <TableWrapper matches={matches}>
                     <CustomTable
                         matches={matches}
-                        data={characters}
+                        data={
+                            searchCharacterActive
+                                ? searchedCharacter
+                                : characters
+                        }
                         seeMore={handleOnSeeMore}
                         active={activeCharacter}
                         setActiveItem={setActiveCharacter}
+                        search={searchCharacter}
+                        searchActive={setSearchCharacterActive}
+                        isActive={searchCharacterActive}
                         characters
                     />
                 </TableWrapper>
@@ -112,16 +125,25 @@ const Characters = ({
 }
 
 const mapStateToProps = state => {
-    const { characters, activeCharacter } = state
+    const {
+        characters,
+        activeCharacter,
+        searchCharacterActive,
+        searchedCharacter,
+    } = state
     return {
         characters,
         activeCharacter,
+        searchCharacterActive,
+        searchedCharacter,
     }
 }
 
 const mapDispatchToProps = {
     getCharacters,
     setActiveCharacter,
+    searchCharacter,
+    setSearchCharacterActive,
     handleNavigation,
 }
 

@@ -10,6 +10,7 @@ import Fab from '@material-ui/core/Fab'
 import TableRow from '@material-ui/core/TableRow'
 
 import Title from './Title'
+import SearchInput from './SearchInput'
 
 const CustomTable = ({
     matches,
@@ -18,6 +19,9 @@ const CustomTable = ({
     characters,
     active,
     setActiveItem,
+    search,
+    searchActive,
+    isActive,
 }) => {
     const useStyles = makeStyles({
         root: {
@@ -33,6 +37,9 @@ const CustomTable = ({
             backgroundColor: '#2D2D2D',
             zIndex: 0,
             paddingTop: matches ? 25 : 20,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
         },
         buttonContainer: {
             justifyContent: 'center',
@@ -68,13 +75,19 @@ const CustomTable = ({
                         <TableRow>
                             <TableCell className={classes.tableHead}>
                                 <h3 style={{ color: 'white', margin: 0 }}>
-                                    Nombre
+                                    {characters ? 'Personajes' : 'Películas'}
                                 </h3>
+                                <SearchInput
+                                    matches={matches}
+                                    search={search}
+                                    searchActive={searchActive}
+                                />
                             </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.results ? (
+                        {Object.keys(data).length > 0 &&
+                        data.results.length > 0 ? (
                             data.results.map(item => {
                                 const { name, title, url } = item
                                 return (
@@ -127,18 +140,21 @@ const CustomTable = ({
                         )}
                     </TableBody>
                 </Table>
-                {characters && data.results && (
-                    <div className={classes.buttonContainer}>
-                        <Fab
-                            variant="extended"
-                            className={classes.button}
-                            onClick={seeMore}
-                            disabled={!data.next}
-                        >
-                            Ver más
-                        </Fab>
-                    </div>
-                )}
+                {characters &&
+                    Object.keys(data).length > 0 &&
+                    data.results.length > 0 &&
+                    !isActive && (
+                        <div className={classes.buttonContainer}>
+                            <Fab
+                                variant="extended"
+                                className={classes.button}
+                                onClick={seeMore}
+                                disabled={!data.next}
+                            >
+                                Ver más
+                            </Fab>
+                        </div>
+                    )}
             </div>
         </Paper>
     )

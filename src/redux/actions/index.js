@@ -3,7 +3,7 @@ import { get } from '../../utils/requests'
 import { endpoints } from '../../utils/api'
 // import { post, getWithId } from '../../utils/requests'
 
-const { characters, films } = endpoints
+const { characters, films, search } = endpoints
 
 //Actions
 
@@ -27,10 +27,19 @@ export const setActiveMovie = payload => ({
     payload: payload,
 })
 
+export const setSearchCharacter = payload => ({
+    type: types.SET_SEARCH_CHARACTER,
+    payload: payload,
+})
+
+export const setSearchCharacterActive = payload => ({
+    type: types.SET_SEARCH_CHARACTER_ACTIVE,
+    payload: payload,
+})
+
 export const handleNavigation = payload => {
     return dispatch => {
         const { key, history, item } = payload
-        console.log(item)
         if (item) {
             dispatch(setActiveMovie(item))
         }
@@ -91,6 +100,46 @@ export const getCharacters = payload => {
                 }
             } else {
                 dispatch(setIsLoading(false))
+            }
+        } catch (error) {
+            dispatch(setIsLoading(false))
+        }
+    }
+}
+
+export const searchCharacter = payload => {
+    return async dispatch => {
+        try {
+            if (payload) {
+                dispatch(setIsLoading(true))
+                const characters = await get(search, payload)
+                const { data, error } = characters
+                if (!error) {
+                    const results = data.results.map(item => {
+                        return { ...item, filmsList: [] }
+                    })
+
+                    results.map(async item => {
+                        const { films, filmsList } = item
+                        if (films.length > 0) {
+                            for (let film of films) {
+                                const response = await fetch(film)
+                                if (response.ok) {
+                                    const filmData = await response.json()
+                                    filmsList.push(filmData)
+                                }
+                            }
+                        }
+                    })
+
+                    data.results = results
+
+                    dispatch(setSearchCharacterActive(true))
+                    dispatch(setSearchCharacter(data))
+                    dispatch(setIsLoading(false))
+                }
+            } else {
+                dispatch(setSearchCharacter({}))
             }
         } catch (error) {
             dispatch(setIsLoading(false))

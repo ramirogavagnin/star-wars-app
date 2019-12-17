@@ -11,6 +11,10 @@ const INITIAL_STATE = {
     activeCharacter: {},
     movies: {},
     activeMovie: {},
+    searchedCharacter: {},
+    searchedMovie: {},
+    searchCharacterActive: false,
+    searchMovieActive: false,
     isLoading: false,
 }
 

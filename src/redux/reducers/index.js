@@ -48,6 +48,18 @@ const reducers = (state, action) => {
                 activeMovie: action.payload,
             }
 
+        case types.SET_SEARCH_CHARACTER_ACTIVE:
+            return {
+                ...state,
+                searchCharacterActive: action.payload,
+            }
+
+        case types.SET_SEARCH_CHARACTER:
+            return {
+                ...state,
+                searchedCharacter: action.payload,
+            }
+
         // States
         case types.IS_LOADING:
             return {
