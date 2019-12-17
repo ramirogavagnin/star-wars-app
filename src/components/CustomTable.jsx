@@ -29,7 +29,7 @@ const CustomTable = ({
             borderRadius: 0,
         },
         tableWrapper: {
-            height: matches ? '100vh' : '71vh',
+            height: matches ? '100vh' : '100%',
             overflow: 'auto',
         },
         tableHead: {

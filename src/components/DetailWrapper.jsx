@@ -6,11 +6,11 @@ const DetailWrapper = ({ children, matches }) => {
         root: {
             backgroundColor: '#CB202D',
             width: matches ? '60%' : '100%',
-            position: 'fixed',
+            position: matches ? 'fixed' : 'relative',
             right: matches ? 0 : 'none',
             top: matches ? 0 : 'none',
             bottom: 0,
-            height: matches ? '100vh' : '35vh',
+            height: matches ? '100vh' : '100%',
             padding: matches ? '12vh 2vw 2vw 2vw' : '0 3vw 3vw 3vw',
         },
         wrap: {
