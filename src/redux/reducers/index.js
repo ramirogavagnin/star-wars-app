@@ -1,5 +1,6 @@
 import types from '../types'
 import _ from 'lodash'
+import { contains } from '../../utils/contains'
 
 const reducers = (state, action) => {
     switch (action.type) {
@@ -58,6 +59,23 @@ const reducers = (state, action) => {
             return {
                 ...state,
                 searchedCharacter: action.payload,
+            }
+
+        case types.SET_SEARCH_MOVIE_ACTIVE:
+            return {
+                ...state,
+                searchMovieActive: action.payload,
+            }
+
+        case types.SET_SEARCH_MOVIE:
+            const searchResults = _.filter(state.movies.results, item =>
+                contains(item, action.payload)
+            )
+
+            return {
+                ...state,
+                searchedMovie: { results: searchResults },
+                searchMovieActive: true,
             }
 
         // States

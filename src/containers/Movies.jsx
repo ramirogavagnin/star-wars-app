@@ -1,7 +1,12 @@
 import React from 'react'
 
 import { connect } from 'react-redux'
-import { setActiveMovie } from '../redux/actions'
+import {
+    setActiveMovie,
+    setSearchMovie,
+    searchMovieActive,
+    setSearchMovieActive,
+} from '../redux/actions'
 
 import TableWrapper from '../components/TableWrapper'
 import DetailWrapper from '../components/DetailWrapper'
@@ -12,7 +17,15 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Title from '../components/Title'
 import Text from '../components/Text'
 
-const Movies = ({ movies, activeMovie, setActiveMovie }) => {
+const Movies = ({
+    movies,
+    activeMovie,
+    setActiveMovie,
+    setSearchMovie,
+    setSearchMovieActive,
+    searchMovieActive,
+    searchedMovie,
+}) => {
     const matches = useMediaQuery('(min-width:600px)')
 
     const { title, director, producer, release_date } = activeMovie
@@ -23,9 +36,11 @@ const Movies = ({ movies, activeMovie, setActiveMovie }) => {
                 <TableWrapper matches={matches}>
                     <CustomTable
                         matches={matches}
-                        data={movies}
+                        data={searchMovieActive ? searchedMovie : movies}
                         active={activeMovie}
                         setActiveItem={setActiveMovie}
+                        search={setSearchMovie}
+                        searchActive={setSearchMovieActive}
                     />
                 </TableWrapper>
             </Grid>
@@ -59,15 +74,19 @@ const Movies = ({ movies, activeMovie, setActiveMovie }) => {
 }
 
 const mapStateToProps = state => {
-    const { movies, activeMovie } = state
+    const { movies, activeMovie, searchedMovie, searchMovieActive } = state
     return {
         movies,
         activeMovie,
+        searchedMovie,
+        searchMovieActive,
     }
 }
 
 const mapDispatchToProps = {
     setActiveMovie,
+    setSearchMovie,
+    setSearchMovieActive,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Movies)

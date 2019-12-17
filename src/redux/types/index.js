@@ -6,7 +6,7 @@ export default {
     SET_SEARCH_CHARACTER: 'set_search_character',
     SET_SEARCH_CHARACTER_ACTIVE: 'set_search_character_active',
     SET_SEARCH_MOVIE: 'set_search_movie',
-    SET_SEARCH_MOVIE_ACTIVE: 'set_search_movie',
+    SET_SEARCH_MOVIE_ACTIVE: 'set_search_movie_active',
     // States
     IS_LOADING: 'is_loading',
 }

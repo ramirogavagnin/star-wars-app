@@ -1,7 +1,6 @@
 import types from '../types'
 import { get } from '../../utils/requests'
 import { endpoints } from '../../utils/api'
-// import { post, getWithId } from '../../utils/requests'
 
 const { characters, films, search } = endpoints
 
@@ -34,6 +33,16 @@ export const setSearchCharacter = payload => ({
 
 export const setSearchCharacterActive = payload => ({
     type: types.SET_SEARCH_CHARACTER_ACTIVE,
+    payload: payload,
+})
+
+export const setSearchMovie = payload => ({
+    type: types.SET_SEARCH_MOVIE,
+    payload: payload,
+})
+
+export const setSearchMovieActive = payload => ({
+    type: types.SET_SEARCH_MOVIE_ACTIVE,
     payload: payload,
 })
 
