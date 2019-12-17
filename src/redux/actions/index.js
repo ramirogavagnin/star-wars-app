@@ -113,20 +113,16 @@ export const getCharacters = payload => {
                         dispatch(setMovies(getMovies.data))
                         dispatch(setCharacters(data))
                         dispatch(setIsLoading(false))
-                        dispatch(clearLoadingPage(false))
                     } else {
                         dispatch(setCharacters(data))
                         dispatch(setIsLoading(false))
-                        dispatch(clearLoadingPage(false))
                     }
                 }
             } else {
                 dispatch(setIsLoading(false))
-                dispatch(clearLoadingPage(false))
             }
         } catch (error) {
             dispatch(setIsLoading(false))
-            dispatch(clearLoadingPage(false))
         }
     }
 }

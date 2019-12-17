@@ -17,9 +17,14 @@ import NotFound from './containers/NotFound'
 
 const { home, characters, movies } = routes
 
-const App = ({ getCharacters, loadingPage }) => {
+const App = ({ getCharacters, loadingPage, clearLoadingPage }) => {
     useEffect(() => {
+        window.addEventListener('load', () => clearLoadingPage(false))
         getCharacters()
+
+        return () => {
+            window.removeEventListener('load')
+        }
     }, [])
 
     if (loadingPage) {
@@ -49,6 +54,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     getCharacters,
+    clearLoadingPage,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
