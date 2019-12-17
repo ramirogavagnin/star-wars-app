@@ -29,7 +29,11 @@ export const setActiveMovie = payload => ({
 
 export const handleNavigation = payload => {
     return dispatch => {
-        const { key, history } = payload
+        const { key, history, item } = payload
+        console.log(item)
+        if (item) {
+            dispatch(setActiveMovie(item))
+        }
         history.push(key)
     }
 }

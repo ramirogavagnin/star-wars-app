@@ -12,6 +12,8 @@ import Home from './containers/Home'
 import Characters from './containers/Characters'
 import Movies from './containers/Movies'
 
+import NotFound from './containers/NotFound'
+
 const { home, characters, movies } = routes
 
 const App = ({ getCharacters }) => {
@@ -25,6 +27,7 @@ const App = ({ getCharacters }) => {
                     <Route exact path={home} component={Home} />
                     <Route exact path={characters} component={Characters} />
                     <Route exact path={movies} component={Movies} />
+                    <Route component={NotFound} />
                 </Switch>
             </Layout>
         </BrowserRouter>

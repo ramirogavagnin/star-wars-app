@@ -118,16 +118,7 @@ const menuLinks = [
     { key: movies, label: 'Películas', icon: <MovieIcon /> },
 ]
 const Layout = props => {
-    const {
-        children,
-        handleNavigation,
-        isLoading,
-        characters,
-        movies,
-        history,
-    } = props
-
-    console.log(movies)
+    const { children, handleNavigation, isLoading, characters, history } = props
 
     const classes = useStyles()
     const theme = useTheme()
@@ -235,10 +226,9 @@ const Layout = props => {
 }
 
 const mapStateToProps = state => {
-    const { characters, movies, isLoading } = state
+    const { characters, isLoading } = state
     return {
         characters,
-        movies,
         isLoading,
     }
 }

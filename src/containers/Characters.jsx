@@ -1,7 +1,13 @@
 import React from 'react'
 
 import { connect } from 'react-redux'
-import { getCharacters, setActiveCharacter } from '../redux/actions'
+import {
+    getCharacters,
+    setActiveCharacter,
+    handleNavigation,
+} from '../redux/actions'
+
+import routes from '../navigation/routes'
 
 import TableWrapper from '../components/TableWrapper'
 import DetailWrapper from '../components/DetailWrapper'
@@ -12,11 +18,15 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Title from '../components/Title'
 import Text from '../components/Text'
 
+const { movies } = routes
+
 const Characters = ({
     characters,
     getCharacters,
     activeCharacter,
     setActiveCharacter,
+    handleNavigation,
+    history,
 }) => {
     const matches = useMediaQuery('(min-width:600px)')
 
@@ -63,7 +73,19 @@ const Characters = ({
                                             return (
                                                 <li
                                                     key={url}
-                                                    style={{ color: '#fff' }}
+                                                    onClick={() =>
+                                                        handleNavigation({
+                                                            key: movies,
+                                                            history,
+                                                            item,
+                                                        })
+                                                    }
+                                                    style={{
+                                                        color: '#fff',
+                                                        textDecoration:
+                                                            'underline',
+                                                        cursor: 'pointer',
+                                                    }}
                                                 >
                                                     <Text matches={matches}>
                                                         {title}
@@ -100,6 +122,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     getCharacters,
     setActiveCharacter,
+    handleNavigation,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Characters)
