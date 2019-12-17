@@ -78,6 +78,13 @@ const reducers = (state, action) => {
                 searchMovieActive: true,
             }
 
+        case types.CLEAR_ACTIVE_CHARACTER:
+            return {
+                ...state,
+                activeCharacter: {},
+                searchCharacterActive: false,
+            }
+
         // States
         case types.IS_LOADING:
             return {

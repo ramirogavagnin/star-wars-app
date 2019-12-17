@@ -46,6 +46,11 @@ export const setSearchMovieActive = payload => ({
     payload: payload,
 })
 
+export const clearActiveCharacter = payload => ({
+    type: types.CLEAR_ACTIVE_CHARACTER,
+    payload: payload,
+})
+
 export const handleNavigation = payload => {
     return dispatch => {
         const { key, history, item } = payload

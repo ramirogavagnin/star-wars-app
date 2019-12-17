@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from 'react'
+
+import { connect } from 'react-redux'
+import { clearActiveCharacter } from '../redux/actions'
+
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/InputBase'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 
-const SearchInput = ({ matches, search, searchActive }) => {
+const SearchInput = ({
+    matches,
+    search,
+    searchActive,
+    searchCharacterActive,
+    clearActiveCharacter,
+}) => {
     const useStyles = makeStyles(theme => ({
         root: {
             padding: '2px 4px',
@@ -28,6 +38,14 @@ const SearchInput = ({ matches, search, searchActive }) => {
     useEffect(() => {
         if (!inputValue) {
             searchActive(false)
+        }
+
+        return () => {
+            if (searchCharacterActive) {
+                clearActiveCharacter()
+            } else {
+                searchActive(false)
+            }
         }
     }, [inputValue])
 
@@ -56,4 +74,15 @@ const SearchInput = ({ matches, search, searchActive }) => {
     )
 }
 
-export default SearchInput
+const mapStateToProps = state => {
+    const { searchCharacterActive } = state
+    return {
+        searchCharacterActive,
+    }
+}
+
+const mapDispatchToProps = {
+    clearActiveCharacter,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchInput)

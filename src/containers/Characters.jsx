@@ -73,8 +73,8 @@ const Characters = ({
                             <Text matches={matches}>
                                 - Color de ojos: {eye_color}
                             </Text>
-                            <Text matches={matches}>- Altura: {height}cm</Text>
-                            <Text matches={matches}>- Peso: {mass}kg</Text>
+                            <Text matches={matches}>- Altura: {height} cm</Text>
+                            <Text matches={matches}>- Peso: {mass} kg</Text>
                             {filmsList.length > 0 && (
                                 <>
                                     <Text matches={matches}>
