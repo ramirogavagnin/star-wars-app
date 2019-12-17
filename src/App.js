@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { connect } from 'react-redux'
@@ -11,15 +11,23 @@ import Layout from './components/Layout'
 import Home from './containers/Home'
 import Characters from './containers/Characters'
 import Movies from './containers/Movies'
+import Loading from './containers/Loading'
 
 import NotFound from './containers/NotFound'
 
 const { home, characters, movies } = routes
 
-const App = ({ getCharacters }) => {
+const App = ({ getCharacters, loadingPage }) => {
+    const [onFinishLoading, setFinishLoading] = useState(false)
     useEffect(() => {
+        setFinishLoading(true)
         getCharacters()
     }, [])
+
+    if (!onFinishLoading) {
+        return <Loading />
+    }
+
     return (
         <BrowserRouter>
             <Layout>
@@ -34,8 +42,15 @@ const App = ({ getCharacters }) => {
     )
 }
 
+const mapStateToProps = state => {
+    const { loadingPage } = state
+    return {
+        loadingPage,
+    }
+}
+
 const mapDispatchToProps = {
     getCharacters,
 }
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

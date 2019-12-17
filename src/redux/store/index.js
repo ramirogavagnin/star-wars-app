@@ -16,6 +16,7 @@ const INITIAL_STATE = {
     searchCharacterActive: false,
     searchMovieActive: false,
     isLoading: false,
+    loadingPage: true,
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

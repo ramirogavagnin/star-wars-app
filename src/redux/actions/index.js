@@ -51,6 +51,11 @@ export const clearActiveCharacter = payload => ({
     payload: payload,
 })
 
+export const clearLoadingPage = payload => ({
+    type: types.CLEAR_LOADING_PAGE,
+    payload: payload,
+})
+
 export const handleNavigation = payload => {
     return dispatch => {
         const { key, history, item } = payload
@@ -102,6 +107,7 @@ export const getCharacters = payload => {
                     dispatch(setIsLoading(false))
                 } else {
                     // Si no hay payload es mi petición inicial, entonces => movies
+
                     const getMovies = await get(films)
                     if (!getMovies.error) {
                         dispatch(setMovies(getMovies.data))
