@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import { getCharacters, clearLoadingPage } from './redux/actions'
+import { getCharacters } from './redux/actions'
 
 import routes from './navigation/routes'
 
@@ -17,22 +17,14 @@ import NotFound from './containers/NotFound'
 
 const { home, characters, movies } = routes
 
-const App = ({ getCharacters, loadingPage, clearLoadingPage }) => {
+const App = ({ getCharacters, loadingPage }) => {
     useEffect(() => {
-        window.addEventListener('load', clearLoadingPage)
         getCharacters()
-
-        return () => {
-            window.removeEventListener('load')
-        }
     }, [])
-
-    if (loadingPage) {
-        return <Loading />
-    }
 
     return (
         <BrowserRouter>
+            {loadingPage && <Loading />}
             <Layout>
                 <Switch>
                     <Route exact path={home} component={Home} />
@@ -54,7 +46,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     getCharacters,
-    clearLoadingPage,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
